@@ -1,6 +1,6 @@
 import { VuexModule, Module, Action, Mutation, getModule } from 'vuex-module-decorators'
 import { login, logout, getUserInfo } from '@/api/users'
-import { getToken, setToken, removeToken } from '@/utils/cookies'
+import { getToken, setToken, removeToken, isInvalid } from '@/utils/token'
 import router, { resetRouter } from '@/router'
 import { PermissionModule } from './permission'
 import { TagsViewModule } from './tags-view'
@@ -55,37 +55,37 @@ class User extends VuexModule implements IUserState {
   }
 
   @Action
-  public async Login(userInfo: { username: string, password: string}) {
+  public async Login(userInfo: { username: string; password: string }) {
     let { username, password } = userInfo
     username = username.trim()
-    return await login({ username, password })
-    // setToken(data.accessToken)
-    // this.SET_TOKEN(data.accessToken)
+    const token = await login({ username, password })
+    setToken(token)
+    this.SET_TOKEN(token)
   }
 
   @Action
   public ResetToken() {
-    removeToken()
+    // removeToken()
     this.SET_TOKEN('')
     this.SET_ROLES([])
   }
 
   @Action
   public async GetUserInfo() {
-    if (this.token === '') {
+    if (isInvalid(this.token)) {
       throw Error('GetUserInfo: token is undefined!')
     }
-    const { data } = await getUserInfo({ /* Your params here */ })
-    if (!data) {
+    const info = await getUserInfo()
+    if (!info.entity) {
       throw Error('Verification failed, please Login again.')
     }
-    const { roles, name, avatar, introduction, email } = data.user
+    const { roles, username, avatar, introduction, email } = info.entity
     // roles must be a non-empty array
     if (!roles || roles.length <= 0) {
       throw Error('GetUserInfo: roles must be a non-null array!')
     }
     this.SET_ROLES(roles)
-    this.SET_NAME(name)
+    this.SET_NAME(username)
     this.SET_AVATAR(avatar)
     this.SET_INTRODUCTION(introduction)
     this.SET_EMAIL(email)
@@ -109,11 +109,11 @@ class User extends VuexModule implements IUserState {
 
   @Action
   public async LogOut() {
-    if (this.token === '') {
+    if (isInvalid(this.token)) {
       throw Error('LogOut: token is undefined!')
     }
     await logout()
-    removeToken()
+    // removeToken()
     resetRouter()
 
     // Reset visited views and cached views

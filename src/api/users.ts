@@ -7,11 +7,10 @@ export const getUsers = (params: any) =>
     params
   })
 
-export const getUserInfo = (data: any) =>
+export const getUserInfo = () =>
   request({
-    url: '/users/info',
-    method: 'post',
-    data
+    url: '/admin/info',
+    method: 'get'
   })
 
 export const getUserByName = (username: string) =>
@@ -35,14 +34,14 @@ export const deleteUser = (username: string) =>
 
 export const login = (data: any) =>
   request({
-    url: '/v1/login',
+    url: '/admin/login',
     method: 'post',
     data
   })
 
 export const logout = () =>
   request({
-    url: '/users/logout',
+    url: '/admin/logout',
     method: 'post'
   })
 
