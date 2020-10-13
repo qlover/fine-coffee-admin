@@ -14,7 +14,6 @@ service.interceptors.request.use(
   (config) => {
     const token = UserModule.token
     if (!isInvalid(token)) {
-      console.log('req token', token)
       config.headers[token.key] = token.token
     }
     return config

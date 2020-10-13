@@ -54,7 +54,7 @@ class User extends VuexModule implements IUserState {
     this.email = email
   }
 
-  @Action
+  @Action({ rawError: true })
   public async Login(userInfo: { username: string; password: string }) {
     let { username, password } = userInfo
     username = username.trim()
@@ -70,7 +70,7 @@ class User extends VuexModule implements IUserState {
     this.SET_ROLES([])
   }
 
-  @Action
+  @Action({ rawError: true })
   public async GetUserInfo() {
     if (isInvalid(this.token)) {
       throw Error('GetUserInfo: token is undefined!')

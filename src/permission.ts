@@ -40,13 +40,15 @@ router.beforeEach(async (to: Route, _: Route, next: any) => {
           await UserModule.GetUserInfo();
           const roles = UserModule.roles;
           // Generate accessible routes map based on role
-          PermissionModule.GenerateRoutes(roles);
-          // Dynamically add accessible routes
-          router.addRoutes(PermissionModule.dynamicRoutes);
+          await PermissionModule.GenerateRoutes(roles);
+          // console.log('PermissionModule.dynamicRoutes', routes)
+          // // Dynamically add accessible routes
+          // router.addRoutes(routes);
           // Hack: ensure addRoutes is complete
           // Set the replace: true, so the navigation will not leave a history record
           next({ ...to, replace: true });
         } catch (err) {
+          console.log('has err', err)
           // Remove token and redirect to login page
           UserModule.ResetToken();
           Message.error(err || "Has Error");

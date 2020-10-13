@@ -152,11 +152,15 @@ export const constantRoutes: RouteConfig[] = [
   }
 ];
 
+export const asyncRoutes: RouteConfig[] = [
+
+];
+
 /**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
-export const asyncRoutes: RouteConfig[] = [
+export const asyncRoutes_cp: RouteConfig[] = [
   {
     path: "/auth",
     component: Layout,
