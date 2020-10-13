@@ -20,48 +20,48 @@ const hasPermission = (roles: string[], route: RouteConfig) => {
 }
 
 export const filterAsyncRoutes = (routes: RouteConfig[]) => {
-  return routes.filter((route: any) => {
-    route.meta = JSON.parse(route.meta)
-    if(0 == route.pid){
-      console.log('layout lyao')
-      route.component = Layout
-    } else {
-      route.component = loadView(route.component)
-
-    }
-    if (route.child && route.child.length > 0) {
-      route.children = filterAsyncRoutes(route.child)
-    }
-    delete route.child
-    delete route.pid
-    return true
-  })
   // return routes.filter((route: any) => {
-  //   const { child } = route
-
-  //   if (0 == route.pid) {
-  //     route.name = route.title
-  //     route.meta = JSON.parse(route.meta)
-  //     route.redirect = route.meta.redirect
-
+  //   route.meta = JSON.parse(route.meta)
+  //   if(0 == route.pid){
+  //     console.log('layout lyao')
   //     route.component = Layout
   //   } else {
-  //     route.name = route.title
-  //     route.meta = JSON.parse(route.meta)
-      
-  //     route.component = loadView(route.meta.component)
-  //   }
+  //     route.component = loadView(route.component)
 
-  //   if (child && child.length > 0) {
-  //     route.children = filterAsyncRoutes(child)
   //   }
-    
+  //   if (route.child && route.child.length > 0) {
+  //     route.children = filterAsyncRoutes(route.child)
+  //   }
   //   delete route.child
-  //   delete route.title
   //   delete route.pid
-
   //   return true
   // })
+  return routes.filter((route: any) => {
+    const { child } = route
+
+    if (0 == route.pid) {
+      route.name = route.title
+      route.meta = JSON.parse(route.meta)
+      route.redirect = route.meta.redirect
+
+      route.component = Layout
+    } else {
+      route.name = route.title
+      route.meta = JSON.parse(route.meta)
+      
+      route.component = loadView(route.meta.component)
+    }
+
+    if (child && child.length > 0) {
+      route.children = filterAsyncRoutes(child)
+    }
+    
+    delete route.child
+    delete route.title
+    delete route.pid
+
+    return true
+  })
   // const res: RouteConfig[] = []
 
   // routes.forEach(route => {
@@ -97,12 +97,6 @@ class Permission extends VuexModule implements IPermissionState {
     const res = await getMeuns()
     let accessedRoutes = filterAsyncRoutes(res.list)
     console.log('accessedRoutes', accessedRoutes)
-    
-    accessedRoutes.push({
-      path: "*",
-      redirect: "/404",
-      meta: { hidden: true }
-    })
     router.addRoutes(accessedRoutes)
     this.SET_ROUTES(accessedRoutes)
   }
