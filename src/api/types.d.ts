@@ -42,3 +42,20 @@ export interface IUserData {
   introduction: string
   roles: string[]
 }
+
+export interface IAuthRuleData {
+  id?: number
+  meta: any
+  path: string
+  pid: number
+  title: string
+  sort: number
+  status: 0 | 1
+  type: 'router' | 'api'
+}
+
+export interface IRulePid {
+  id: number
+  title: string
+  children?: IRulePid[]
+}

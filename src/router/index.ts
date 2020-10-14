@@ -153,7 +153,15 @@ export const constantRoutes: RouteConfig[] = [
 ];
 
 export const asyncRoutes: RouteConfig[] = [
-
+  componentsRouter,
+  chartsRouter,
+  nestedRouter,
+  tableRouter,
+  {
+    path: "*",
+    redirect: "/404",
+    meta: { hidden: true }
+  }
 ];
 
 /**

@@ -171,5 +171,26 @@ export default {
     showSidebarLogo: '显示侧边栏 Logo',
     fixedHeader: '固定 Header',
     sidebarTextTheme: '侧边栏文字主题色'
+  },
+  authRule: {
+    meta: "元数据",
+    path: "规则路径",
+    title:"规则名称",
+    pid: "父级规则",
+    type: "路由类型",
+    status: "规则状态",
+    typeRouter: "路由菜单",
+    typeApi: "api接口",
+    disable: "禁用",
+    normal: "正常",
+    sort: "规则顺序",
+    placeholderPath: "请输入规则路径",
+    placeholderTitle: "请输入规则名字",
+    placeholderPid: "请选择父级菜单",
+    metaIcon: "规则显示图标",
+    metaTitle: "规则显示标题",
+    metaComponent: "组件页面",
+    ruleAdd: "新增规则",
+    ruleUpdate: "规则修改",
   }
 }

@@ -37,7 +37,7 @@ export const filterAsyncRoutes = (routes: RouteConfig[]) => {
   //   return true
   // })
   return routes.filter((route: any) => {
-    const { child } = route
+    const { children } = route
 
     if (0 == route.pid) {
       route.name = route.title
@@ -52,11 +52,12 @@ export const filterAsyncRoutes = (routes: RouteConfig[]) => {
       route.component = loadView(route.meta.component)
     }
 
-    if (child && child.length > 0) {
-      route.children = filterAsyncRoutes(child)
+    if (children && children.length > 0) {
+      route.children = filterAsyncRoutes(children)
+    } else {
+      delete route.children
     }
     
-    delete route.child
     delete route.title
     delete route.pid
 
@@ -96,7 +97,7 @@ class Permission extends VuexModule implements IPermissionState {
   public async GenerateRoutes(roles: string[]) {
     const res = await getMeuns()
     let accessedRoutes = filterAsyncRoutes(res.list)
-    console.log('accessedRoutes', accessedRoutes)
+    accessedRoutes = asyncRoutes.concat(accessedRoutes)
     router.addRoutes(accessedRoutes)
     this.SET_ROUTES(accessedRoutes)
   }
