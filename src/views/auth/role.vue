@@ -146,7 +146,7 @@
           <el-input v-model="ruleData.meta.component" />
         </el-form-item>
         <el-form-item :label="$t('authRule.metaIcon')">
-          <el-input v-model="ruleData.meta.icon" />
+          <icon-picker v-model="ruleData.meta.icon"></icon-picker>
         </el-form-item>
 
         <el-form-item :label="$t('authRule.sort')">

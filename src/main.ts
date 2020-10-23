@@ -19,6 +19,11 @@ import '@/pwa/register-service-worker'
 import * as directives from '@/directives'
 import * as filters from '@/filters'
 
+import iconPicker from 'vue-fontawesome-elementui-icon-picker';
+
+Vue.use(iconPicker);
+
+
 Vue.use(ElementUI, {
   size: AppModule.size, // Set element-ui default size
   i18n: (key: string, value: string) => i18n.t(key, value)
